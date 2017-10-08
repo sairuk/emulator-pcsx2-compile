@@ -1,0 +1,15 @@
+#!/bin/bash
+
+GITREPO=https://github.com/PCSX2/pcsx2.git
+REPODIR=pcsx2
+BUILD=release   # devel | debug | release
+
+
+cd $HOME
+if [ ! -d ${HOME}/${REPODIR}/.git ]; then
+    git clone $GITREPO
+fi
+
+cd ${HOME}/${REPODIR}
+git pull
+./build.sh --clean --egl --${BUILD} --strip --extra --lto --no-cross-multilib
