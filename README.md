@@ -28,4 +28,6 @@ fi
 
 cd ${HOME}/${REPODIR}
 git pull
+
+./build.sh --clean --egl --${BUILD} --strip --extra --lto --no-cross-multilib
 ```
