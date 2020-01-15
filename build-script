@@ -2,7 +2,7 @@
 
 GITREPO=https://github.com/PCSX2/pcsx2.git
 REPODIR=pcsx2
-BUILD=release   # devel | debug | release
+BUILD=release   # devel | debug | prof | release
 
 
 cd $HOME
@@ -12,4 +12,4 @@ fi
 
 cd ${HOME}/${REPODIR}
 git pull
-./build.sh --clean --egl --${BUILD} --strip --extra --lto --no-cross-multilib
+./build.sh --egl --${BUILD} --strip --extra --lto --no-cross-multilib

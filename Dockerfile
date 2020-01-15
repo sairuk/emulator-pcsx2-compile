@@ -1,6 +1,9 @@
 FROM multiarch/debian-debootstrap:i386-stretch
 MAINTAINER sairuk
-ENV user pcsxuser
+ARG USER=emudev
+ARG UID=1004
+ARG BS=build-script
+ARG BSD=/tmp/${BS}
 
 # UPDATE SOURCES enable non-free for nvidia-cg-toolkit & libcggl
 RUN sed -i 's/main$/main non-free/' /etc/apt/sources.list
@@ -15,7 +18,7 @@ RUN apt-get -y install \
 	g++ \
 	g++-multilib \
 	cmake \
-    git
+  git
 
 # DEPENDENCIES
 RUN apt-get -y install \
@@ -40,10 +43,15 @@ RUN apt-get -y install \
 	liblzma-dev
 
 # USER
-RUN useradd -m -s /bin/bash -u 1004 ${user}
+RUN useradd -m -s /bin/bash -u ${UID} ${USER}
 
-VOLUME /home/${user}
-USER ${user}
-WORKDIR /home/${user}
+COPY ${BS} ${BSD}
 
-CMD ./build-script
+RUN chown ${USER}: ${BSD} \
+    && chmod +x ${BSD}
+
+VOLUME /home/${USER}
+USER ${USER}
+WORKDIR /home/${USER}
+
+CMD /tmp/build-script
